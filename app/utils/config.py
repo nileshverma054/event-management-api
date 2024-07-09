@@ -21,8 +21,9 @@ class Settings(BaseSettings):
     environment: str = "development"
     port: int = 8000
     log_level: LogLevel = LogLevel.DEBUG
+    db_url: str
 
-    model_config = SettingsConfigDict(env_file="app/.env")
+    model_config = SettingsConfigDict(env_file=".env")
 
 
 @lru_cache()

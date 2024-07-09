@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from app.routes import healthcheck_route
 
 from app.utils.config import get_config
+from app.routes import router as api_router
 
 config = get_config()
 
@@ -18,4 +18,4 @@ app = FastAPI(
     redoc_url=config.redoc_url,
 )
 
-app.include_router(healthcheck_route.router)
+app.include_router(api_router, prefix="/api")
