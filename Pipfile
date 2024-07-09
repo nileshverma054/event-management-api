@@ -8,8 +8,8 @@ fastapi = "*"
 uvicorn = "*"
 pydantic-settings = "*"
 sqlalchemy = "*"
-mysqlclient = "*"
 alembic = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
