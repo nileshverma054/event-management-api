@@ -24,7 +24,7 @@ logging_config = {
     },
     "loggers": {
         "console": {
-            "level": config.log_level.value,
+            "level": config.LOG_LEVEL.value,
             "handlers": ["console"],
             "propagate": False,
         },

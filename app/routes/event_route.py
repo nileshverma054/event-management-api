@@ -10,12 +10,17 @@ from app.schemas.event_schema import (
 from app.services import event_service
 from app.utils.database import get_db
 from app.utils.logger import logger
+from app.utils.auth_utils import get_current_active_user, get_current_admin_user
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
 
 @router.post("", response_model=EventSchema)
-async def create_event(event: EventCreateRequestSchema, db: Session = Depends(get_db)):
+async def create_event(
+    event: EventCreateRequestSchema,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_admin_user),
+):
     logger.debug(f"event: {event}")
     return event_service.create_event(db=db, event=event)
 
@@ -36,11 +41,18 @@ async def get_event(event_id: int, db: Session = Depends(get_db)):
 
 @router.put("/{event_id}", response_model=EventSchema)
 async def update_event(
-    event_id: int, event: EventUpdateRequestSchema, db: Session = Depends(get_db)
+    event_id: int,
+    event: EventUpdateRequestSchema,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_admin_user),
 ):
     return event_service.update_event(db=db, event_id=event_id, event=event)
 
 
 @router.delete("/{event_id}", status_code=HTTP_204_NO_CONTENT)
-async def delete_event(event_id: int, db: Session = Depends(get_db)):
+async def delete_event(
+    event_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_admin_user),
+):
     event_service.delete_event(db=db, event_id=event_id)

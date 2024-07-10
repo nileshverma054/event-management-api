@@ -3,7 +3,7 @@ from app.utils.database import Base
 
 
 class EventModel(Base):
-    __tablename__ = "events"
+    __tablename__ = "event"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String(255), index=True, nullable=False)

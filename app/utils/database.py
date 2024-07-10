@@ -6,7 +6,7 @@ from app.utils.config import get_config
 
 config = get_config()
 
-engine = create_engine(config.db_url)
+engine = create_engine(config.DB_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

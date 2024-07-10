@@ -25,8 +25,8 @@ The Event Management RESTful API is a server-side application that allows users 
     - [x] Remove events
     - [ ] Register for events
     - [ ] Search functionality for events
-- [ ] Authentication
-- [ ] Authorization
+- [x] Authentication
+- [x] Authorization
 - [ ] Containerization with Docker and Docker Compose
 - [ ] Tests for the API
 
