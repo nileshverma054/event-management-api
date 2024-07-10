@@ -8,12 +8,11 @@ config = get_config()
 app = FastAPI(
     title=config.app_name,
     version=config.app_version,
-    description="API to manage events.",
+    description="The Event Management RESTful API is a server-side application that allows users to manage events. It provides endpoints for different access levels, allowing users to view events and administrators to manage them. Users can register for events, and administrators can add, remove, or edit events. The API supports search functionality, allowing users to search for events by title, date, or location.",
     license_info={
-        "name": "Apache 2.0",
-        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+        "name": "Git Repository",
+        "url": "https://github.com/nileshverma054/event-management-api",
     },
-    contact={"name": "Nilesh Verma", "url": "https://github.com/nileshverma054"},
     docs_url=config.docs_url,
     redoc_url=config.redoc_url,
 )

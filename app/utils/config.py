@@ -14,7 +14,7 @@ class LogLevel(str, Enum):
 
 
 class Settings(BaseSettings):
-    app_name: str = "Event Management Api"
+    app_name: str = "Event Management API"
     app_version: str = "0.0.1"
     docs_url: str = "/docs"
     redoc_url: str | None = None
