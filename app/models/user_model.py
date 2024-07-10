@@ -3,7 +3,7 @@ import datetime
 from sqlalchemy import Boolean, Column, DateTime, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from app.utils.constants import UserRoleEnum
+from app.utils.constants import UserRoleEnum as RoleEnum
 from app.utils.database import Base
 
 
@@ -36,7 +36,7 @@ class UserRoleModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
-    role = Column(Enum(UserRoleEnum), nullable=False)
+    role = Column(Enum(RoleEnum), nullable=False)
 
     user = relationship("UserModel", back_populates="roles")
 
