@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
 
@@ -6,6 +6,7 @@ from app.schemas.event_schema import (
     EventCreateRequestSchema,
     EventSchema,
     EventUpdateRequestSchema,
+    RegisterEventResponseSchema,
 )
 from app.services import event_service
 from app.utils.database import get_db
@@ -26,8 +27,17 @@ async def create_event(
 
 
 @router.get("", response_model=list[EventSchema])
-async def get_events(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    events = event_service.get_events(db, skip=skip, limit=limit)
+async def get_events(
+    title: str = Query(None),
+    date: str = Query(None),
+    location: str = Query(None),
+    skip: int = 0,
+    limit: int = 10,
+    db: Session = Depends(get_db),
+):
+    events = event_service.get_events(
+        db=db, title=title, date=date, location=location, skip=skip, limit=limit
+    )
     return events
 
 
@@ -56,3 +66,15 @@ async def delete_event(
     current_user: dict = Depends(get_current_admin_user),
 ):
     event_service.delete_event(db=db, event_id=event_id)
+
+
+@router.post("/{event_id}/register", response_model=RegisterEventResponseSchema)
+async def register_event(
+    event_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_active_user),
+):
+    logger.debug(f"event_id: {event_id}")
+    return event_service.register_event(
+        db=db, event_id=event_id, user_id=current_user.get("user_id")
+    )

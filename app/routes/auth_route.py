@@ -42,19 +42,3 @@ def login_user(user: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     tokens = create_tokens(user)
     return tokens
-
-# @router.post("/token/refresh")
-# def refresh_token(refresh_token: str, db: Session = Depends(get_db)):
-#     payload = decode_token(refresh_token)
-#     if not payload:
-#         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-#     user = get_user_by_username(db, payload.get("sub"))
-#     if not user:
-#         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
-#     tokens = create_tokens(user)
-#     return tokens
-
-# @router.post("/admin/create_role")
-# def create_role(user_role: UserRoleCreate, user_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_admin_user)):
-#     db_user_role = create_user_role(db, user_id, user_role)
-#     return db_user_role

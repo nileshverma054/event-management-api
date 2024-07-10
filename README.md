@@ -18,22 +18,28 @@ The Event Management RESTful API is a server-side application that allows users 
 - [x] API Documentation
 - [x] Database Migration with Alembic
 - [x] Use pipenv to manage dependencies
-- [ ] Events API
+- [x] Events API
     - [x] Add events
     - [x] Get events
     - [x] Edit events
     - [x] Remove events
-    - [ ] Register for events
-    - [ ] Search functionality for events
+    - [x] Register for events
+    - [x] Search functionality for events
 - [x] Authentication
 - [x] Authorization
+- [x] Deployment
 - [ ] Containerization with Docker and Docker Compose
 - [ ] Tests for the API
 
 ### Project Setup
 
-**Framework and Database**
+**Install dependencies**
 
+Below command will create a virtual env and install all dependencies from pipenv.lock
+
+```shell
+pipenv install
+```
 
 **Database Migration**
 
@@ -53,6 +59,12 @@ The Event Management RESTful API is a server-side application that allows users 
 
 ```bash
  alembic upgrade head
+```
+
+**Run App**
+
+```bash
+ fastapi dev
 ```
 
 ---

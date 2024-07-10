@@ -4,6 +4,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from app.models.event_model import EventModel
 from app.models.user_model import UserModel, UserModel
+from app.models.registration_model import RegistrationModel
 
 from app.utils.database import Base
 from app.utils.config import get_config

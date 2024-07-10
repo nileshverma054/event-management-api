@@ -1,7 +1,9 @@
-from sqlalchemy.orm import Session
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from app.models.event_model import EventModel
+from app.models.registration_model import RegistrationModel
 from app.schemas.event_schema import EventCreateRequestSchema, EventUpdateRequestSchema
 from app.utils.logger import logger
 
@@ -18,9 +20,25 @@ def get_event(db: Session, event_id: int):
     return db.query(EventModel).filter(EventModel.id == event_id).first()
 
 
-def get_events(db: Session, skip: int = 0, limit: int = 10):
-    logger.info("Fetching events")
-    return db.query(EventModel).offset(skip).limit(limit).all()
+def get_events(
+    db: Session,
+    title: str | None = None,
+    date: str | None = None,
+    location: str | None = None,
+    skip: int = 0,
+    limit: int = 10,
+):
+    logger.info(
+        f"Fetching events: title: {title}, date: {date}, location: {location}, skip: {skip}, limit: {limit}"
+    )
+    query = db.query(EventModel)
+    if title:
+        query = query.filter(EventModel.title.ilike(f"%{title}%"))
+    if date:
+        query = query.filter(func.date(EventModel.date) == date)
+    if location:
+        query = query.filter(EventModel.location.ilike(f"%{location}%"))
+    return query.offset(skip).limit(limit).all()
 
 
 def create_event(db: Session, event: EventCreateRequestSchema):
@@ -53,3 +71,14 @@ def update_event(db: Session, event_id: int, event: EventUpdateRequestSchema):
     db.refresh(db_event)
     logger.info("Event updated successfully")
     return db_event
+
+
+def register_event(db: Session, event_id: int, user_id: int):
+    logger.debug(f"event_id: {event_id}, user_id: {user_id}")
+    db_event = validate_event(db, event_id)
+    db_registration = RegistrationModel(user_id=user_id, event_id=event_id)
+    db.add(db_registration)
+    db.commit()
+    db.refresh(db_event)
+    logger.info(f"Event registered successfully: {db_event}")
+    return {"registration_id": db_registration.id}

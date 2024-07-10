@@ -37,3 +37,7 @@ class EventUpdateRequestSchema(EventBaseSchema):
         if not any(values.values()):
             raise ValueError("At least one field must be provided to update the event")
         return values
+
+
+class RegisterEventResponseSchema(BaseModel):
+    registration_id: int
