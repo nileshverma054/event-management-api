@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Event Management API"
     APP_VERSION: str = "0.0.1"
     DOCS_URL: str = "/docs"
-    REDOC_URL: str | None = None
+    REDOC_URL: str = "/redoc"
     ENVIRONMENT: str = "development"
     PORT: int = 8000
     LOG_LEVEL: LogLevel = LogLevel.DEBUG
