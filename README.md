@@ -10,6 +10,21 @@ The Event Management RESTful API is a server-side application that allows users 
 
 * [Github](https://github.com/nileshverma054/event-management-api)
 
+### Authentication and Authorization
+
+* The API uses JSON Web Tokens (JWT) for authentication.
+* The API supports two types of users: admin and regular users.
+* The API uses the following roles:`user`.
+    - `admin`: The user is an administrator. An administrator can add, remove, or edit events.
+    - `user`: The user is a regular user. A regular user can view events and register for them. In order to register for an event the user must signup first.
+* The API uses the following algorithms to sign the JWT:
+    - `HS256`: A secret key is used to sign and verify the JWT.
+* The API uses the following headers to verify the JWT:
+    - `Authorization`: The JWT is passed in the `Authorization` header: `Authorization: Bearer <token>`.
+
+
+
+
 ---
 
 ### TODO
@@ -28,6 +43,7 @@ The Event Management RESTful API is a server-side application that allows users 
 - [x] Authentication
 - [x] Authorization
 - [x] Deployment
+- [ ] Databse rollback support
 - [ ] Containerization with Docker and Docker Compose
 - [ ] Tests for the API
 
