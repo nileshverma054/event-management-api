@@ -1,6 +1,4 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI
 
 from app.routes import api_router
 from app.utils.config import get_config
@@ -28,13 +26,5 @@ app = FastAPI(
     docs_url=config.DOCS_URL,
     redoc_url=config.REDOC_URL,
 )
-
-templates = Jinja2Templates(directory="app/templates")
-
-
-@app.get("/rapidoc", response_class=HTMLResponse, include_in_schema=False)
-async def get_rapidoc(request: Request):
-    return templates.TemplateResponse("rapidoc.html", {"request": request})
-
 
 app.include_router(api_router)
