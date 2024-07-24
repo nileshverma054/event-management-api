@@ -14,6 +14,7 @@ passlib = {extras = ["bcrypt"], version = "*"}
 python-jose = {extras = ["cryptography"], version = "*"}
 
 [dev-packages]
+arguably = "*"
 
 [requires]
 python_version = "3.12"
