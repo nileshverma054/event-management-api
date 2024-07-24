@@ -6,16 +6,13 @@ from starlette.status import HTTP_201_CREATED
 from app.schemas.user_schema import (
     UserCreateResponseSchema,
     UserCreateSchema,
-    UserRoleCreateSchema,
     LoginResponseSchema
 )
 from app.services.user_service import (
     authenticate_user,
     create_tokens,
     create_user,
-    create_user_role,
 )
-from app.utils.constants import UserRoleEnum
 from app.utils.database import get_db
 from app.utils.logger import logger
 
@@ -28,8 +25,6 @@ router = APIRouter(tags=["Authentication"])
 def register_user(user: UserCreateSchema, db: Session = Depends(get_db)):
     logger.debug(f"user: {user}")
     db_user = create_user(db, user)
-    user_role = UserRoleCreateSchema(role=UserRoleEnum.user)
-    create_user_role(db, db_user.id, user_role)
     return {"id": db_user.id}
 
 

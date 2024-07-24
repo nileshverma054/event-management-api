@@ -6,7 +6,6 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 
 from app.utils.config import get_config
-from app.utils.constants import UserRoleEnum
 from app.utils.logger import logger
 from passlib.context import CryptContext
 

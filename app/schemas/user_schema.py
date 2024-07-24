@@ -1,7 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field, SecretStr
 
-from app.utils.constants import UserRoleEnum
-
 name_pattern = r"^[a-zA-Z]+$"
 
 
@@ -28,14 +26,9 @@ class UserCreateSchema(UserBaseSchema):
 class UserInDBSchema(UserBaseSchema):
     id: int
     is_active: bool
-    role: UserRoleEnum
 
     class Config:
         from_attributes = True
-
-
-class UserRoleCreateSchema(BaseModel):
-    role: UserRoleEnum
 
 
 class UserCreateResponseSchema(BaseModel):

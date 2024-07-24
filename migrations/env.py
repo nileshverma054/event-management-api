@@ -3,8 +3,11 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from app.models.event_model import EventModel
-from app.models.user_model import UserModel, UserModel
+from app.models.user_model import UserModel
 from app.models.registration_model import RegistrationModel
+from app.models.role_model import RoleModel
+from app.models.permission_model import PermissionModel
+from app.models.association_tables import role_permission_association
 
 from app.utils.database import Base
 from app.utils.config import get_config
