@@ -51,7 +51,6 @@ def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None):
 def decode_token(token: str):
     try:
         payload = jwt.decode(token, config.SECRET_KEY, algorithms=[config.ALGORITHM])
-        # logger.debug(f"token payload: {payload}")
         return payload
     except JWTError:
         return None
@@ -64,7 +63,6 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     payload = decode_token(token)
-    # logger.debug(f"decoded payload: {payload}")
     if payload is None:
         raise credentials_exception
     return payload
@@ -80,6 +78,15 @@ def get_current_active_user(current_user: dict = Depends(get_current_user)):
 
 def get_current_admin_user(current_user: dict = Depends(get_current_user)):
     logger.debug(f"current user: {current_user}")
+    if UserRoleEnum.admin.value not in current_user.get("roles"):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Not enough permissions"
+        )
+    return current_user
+
+
+def authenticate_user(current_user: dict = Depends(get_current_user)):
+    logger.debug(f"authenticate_user: {current_user}")
     if UserRoleEnum.admin.value not in current_user.get("roles"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Not enough permissions"

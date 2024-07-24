@@ -12,12 +12,11 @@ from app.utils.auth_utils import (
 from app.utils.logger import logger
 
 
+def get_user_by_email(db: Session, email: str) -> UserModel | None:
+    return UserModel.get_by_email(db, email=email)
 
-def get_user_by_email(db: Session, email: str):
-    return db.query(UserModel).filter(UserModel.email == email).first()
 
-
-def create_user(db: Session, user: UserCreateSchema):
+def create_user(db: Session, user: UserCreateSchema) -> UserModel:
     logger.debug(f"create user: {user}")
     if get_user_by_email(db, user.email):
         raise HTTPException(
@@ -32,13 +31,13 @@ def create_user(db: Session, user: UserCreateSchema):
         hashed_password=hashed_password,
     )
     db.add(db_user)
-    db.commit()
+    db.flush()
     db.refresh(db_user)
-    logger.info(f"User created successfully with id: {db_user.id}")
+    logger.info(f"User created successfully: {db_user}")
     return db_user
 
 
-def authenticate_user(db: Session, username: str, password: str):
+def authenticate_user(db: Session, username: str, password: str) -> UserModel | None:
     user = get_user_by_email(db, username)
     logger.debug(f"user: {user}")
     if user and verify_password(password, user.hashed_password):
@@ -46,17 +45,17 @@ def authenticate_user(db: Session, username: str, password: str):
     return None
 
 
-def create_user_role(db: Session, user_id: int, role: UserRoleCreateSchema):
+def create_user_role(db: Session, user_id: int, role: UserRoleCreateSchema) -> UserRoleModel:
     logger.debug(f"user_id: {user_id}, role: {role}")
     db_user_role = UserRoleModel(user_id=user_id, role=role.role.value)
     db.add(db_user_role)
-    db.commit()
+    db.flush()
     db.refresh(db_user_role)
-    logger.info(f"User role created successfully with id: {db_user_role.id}")
+    logger.info(f"User role created successfully: {db_user_role}")
     return db_user_role
 
 
-def create_tokens(user: UserModel):
+def create_tokens(user: UserModel) -> dict[str, str]:
     access_token = create_access_token(
         {
             "sub": user.email,

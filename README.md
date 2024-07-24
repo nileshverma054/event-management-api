@@ -47,6 +47,7 @@ The Event Management RESTful API is a server-side application that allows users 
 * [ ] Databse rollback support
 * [ ] Containerization with Docker and Docker Compose
 * [ ] Tests for the API
+* [ ] Add SAML support
 
 ## Project Setup
 

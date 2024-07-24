@@ -9,9 +9,9 @@ from app.schemas.event_schema import (
     RegisterEventResponseSchema,
 )
 from app.services import event_service
+from app.utils.auth_utils import authenticate_user, get_current_active_user, get_current_admin_user
 from app.utils.database import get_db
 from app.utils.logger import logger
-from app.utils.auth_utils import get_current_active_user, get_current_admin_user
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
@@ -19,10 +19,9 @@ router = APIRouter(prefix="/events", tags=["Events"])
 @router.post("", response_model=EventSchema)
 async def create_event(
     event: EventCreateRequestSchema,
-    db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_admin_user),
+    db: Session = Depends(get_db),
 ):
-    logger.debug(f"event: {event}")
     return event_service.create_event(db=db, event=event)
 
 
@@ -62,9 +61,10 @@ async def update_event(
 @router.delete("/{event_id}", status_code=HTTP_204_NO_CONTENT)
 async def delete_event(
     event_id: int,
+    current_user: dict = Depends(authenticate_user),
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_admin_user),
 ):
+    return {}
     event_service.delete_event(db=db, event_id=event_id)
 
 

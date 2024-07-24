@@ -3,10 +3,10 @@ import datetime
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
-from app.utils.database import Base
+from app.models.base_model import BaseModel
 
 
-class RegistrationModel(Base):
+class RegistrationModel(BaseModel):
     __tablename__ = "event_registration"
 
     id = Column(Integer, primary_key=True, index=True)

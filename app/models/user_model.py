@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import Boolean, Column, DateTime, Enum, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 
 from app.utils.constants import UserRoleEnum as RoleEnum
 from app.utils.database import Base
@@ -28,7 +28,15 @@ class UserModel(Base):
     roles = relationship("UserRoleModel", back_populates="user")
 
     def __repr__(self):
-        return f"<UserModel {self.id} {self.email}>"
+        return f"<UserModel(id={self.id}, email={self.email})>"
+
+    @classmethod
+    def get_by_email(cls, db: Session, email: str):
+        return db.query(cls).filter(cls.email == email).first()
+
+
+class RoleModel(Base):
+    __tablename__ = "user_role"
 
 
 class UserRoleModel(Base):
@@ -41,4 +49,4 @@ class UserRoleModel(Base):
     user = relationship("UserModel", back_populates="roles")
 
     def __repr__(self):
-        return f"<UserRoleModel {self.user_id} {self.role}>"
+        return f"<UserRoleModel(id={self.id}, user_id={self.user_id}, role={self.role})>"
