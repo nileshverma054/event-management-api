@@ -1,0 +1,25 @@
+meta {
+  name: Login
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://127.0.0.1:8000/api/login
+  body: formUrlEncoded
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:form-urlencoded {
+  username: admin@example.com
+  password: admin
+}
+
+tests {
+  var res = res.getBody();
+  bru.setVar("token", res.access_token);
+}

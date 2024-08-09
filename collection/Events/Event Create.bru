@@ -1,0 +1,24 @@
+meta {
+  name: Event Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://127.0.0.1:8000/api/events
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "title": "Music Show",
+      "description": "Enjoy the live music.",
+      "date": "2024-07-09 10:00",
+      "location": "Pune"
+  }
+}

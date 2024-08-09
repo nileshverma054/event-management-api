@@ -1,0 +1,21 @@
+meta {
+  name: Event Update
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://127.0.0.1:8000/api/events/10
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "date": "2024-07-01 20:30"
+  }
+}
