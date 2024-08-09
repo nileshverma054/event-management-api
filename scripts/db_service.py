@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.models.permission_model import PermissionModel
-from app.models.role_model import RoleModel
+from app.models.user_model import RoleModel, PermissionModel
 from app.services.user_service import create_user
 from app.schemas.user_schema import UserCreateSchema
 

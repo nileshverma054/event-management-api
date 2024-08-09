@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.models.role_model import RoleModel
+from app.models.user_model import RoleModel
 from app.models.user_model import UserModel
 from app.schemas.user_schema import UserCreateSchema
 from app.utils.auth_utils import (
@@ -53,6 +53,7 @@ def create_user(db: Session, user: UserCreateSchema, role: str = "user") -> User
 def authenticate_user(db: Session, username: str, password: str) -> UserModel | None:
     user = get_user_by_email(db, username)
     logger.debug(f"user: {user}")
+    logger.debug(f"user: {user.role.permissions}, {user.role_id}")
     if user and verify_password(password, user.hashed_password):
         return user
     return None
@@ -61,13 +62,11 @@ def authenticate_user(db: Session, username: str, password: str) -> UserModel | 
 def create_tokens(user: UserModel) -> dict[str, str]:
     access_token = create_access_token(
         {
-            "sub": user.email,
             "user_id": user.id,
         }
     )
     refresh_token = create_refresh_token(
         {
-            "sub": user.email,
             "user_id": user.id,
         }
     )

@@ -79,6 +79,24 @@ pipenv install
  alembic upgrade head
 ```
 
+* Seed Database
+
+```bash
+ python scripts/manage.py seed-db
+```
+
+* Create User
+
+```bash
+ python scripts/manage.py create-user <first_name> <last_name> <email> <role>
+```
+
+* CLI Help
+
+```bash
+ python scripts/manage.py -h
+```
+
 ### Run App
 
 ```bash
