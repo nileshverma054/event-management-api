@@ -9,6 +9,7 @@ from app.schemas.event_schema import (
     RegisterEventResponseSchema,
 )
 from app.services import event_service
+from app.models.user_model import UserModel
 from app.utils.auth_utils import authenticate_user, authenticate_and_authorize_user
 from app.utils.database import get_db
 from app.utils.logger import logger
@@ -19,7 +20,7 @@ router = APIRouter(prefix="/events", tags=["Events"])
 @router.post("", response_model=EventSchema)
 async def create_event(
     event: EventCreateRequestSchema,
-    current_user: dict = Depends(authenticate_and_authorize_user),
+    current_user: UserModel = Depends(authenticate_and_authorize_user(permission="create_event")),
     db: Session = Depends(get_db),
 ):
     return event_service.create_event(db=db, event=event)

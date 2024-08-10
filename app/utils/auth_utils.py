@@ -54,10 +54,12 @@ def decode_token(token: str):
         return None
 
 
-def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+def get_current_user(
+    db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)
+) -> UserModel:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
+        detail="invalid credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
     payload = decode_token(token)
@@ -70,14 +72,20 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_
 
 
 def authenticate_user(current_user: UserModel = Depends(get_current_user)):
-    logger.debug(f"current_user: {current_user}")
     if current_user.is_active is False:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Inactive user")
     return current_user
 
 
-def authenticate_and_authorize_user(current_user: UserModel = Depends(authenticate_user)):
-    logger.debug(f"auth: {current_user}")
-    # if UserRoleEnum.admin.value not in current_user.get("roles"):
-    #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough permissions")
-    # return current_user
+def authenticate_and_authorize_user(permission: str):
+    def _authenticate_and_authorize_user(
+        current_user: UserModel = Depends(authenticate_user),
+    ) -> UserModel:
+        # check if user has permission
+        if not current_user.has_permission(permission):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN, detail="forbidden: insufficient_permissions"
+            )
+        return current_user
+
+    return _authenticate_and_authorize_user

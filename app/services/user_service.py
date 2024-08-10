@@ -53,7 +53,6 @@ def create_user(db: Session, user: UserCreateSchema, role: str = "user") -> User
 def authenticate_user(db: Session, username: str, password: str) -> UserModel | None:
     user = get_user_by_email(db, username)
     logger.debug(f"user: {user}")
-    logger.debug(f"user: {user.role.permissions}, {user.role_id}")
     if user and verify_password(password, user.hashed_password):
         return user
     return None

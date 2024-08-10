@@ -4,6 +4,7 @@ from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import Session, relationship
 from app.models.association_tables import role_permission_association
 from app.utils.database import Base
+from app.utils.logger import logger
 
 
 class PermissionModel(Base):
@@ -81,3 +82,15 @@ class UserModel(Base):
     @classmethod
     def get_by_email(cls, db: Session, email: str):
         return db.query(cls).filter(cls.email == email).first()
+
+    def has_permission(self, permission_name: str) -> bool:
+        if self.role is None:
+            return False
+        logger.debug(
+            f"user_role: {self.role}, permission_name: {permission_name}, permissions: {self.role.permissions}"
+        )
+        return (
+            True
+            if permission_name in [permission.name for permission in self.role.permissions]
+            else False
+        )

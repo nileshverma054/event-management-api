@@ -8,10 +8,10 @@ config = get_config()
 
 logging_config = {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": True,
     "formatters": {
         "verbose": {
-            "format": "%(asctime)s %(levelname)s [%(filename)s %(lineno)s] %(message)s",
+            "format": "%(asctime)s %(levelname)8s [%(filename)s:%(lineno)s] %(message)s",
         },
     },
     "handlers": {
@@ -23,7 +23,7 @@ logging_config = {
         }
     },
     "loggers": {
-        "console": {
+        "uvicorn": {
             "level": config.LOG_LEVEL.value,
             "handlers": ["console"],
             "propagate": False,
@@ -36,7 +36,7 @@ logging_config = {
     },
 }
 
-# logging.config.dictConfig(logging_config)
+logging.config.dictConfig(logging_config)
 # logger = logging.getLogger("console")
 
 logger = logging.getLogger("uvicorn")
