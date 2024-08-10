@@ -1,19 +1,14 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-from app.models.event_model import EventModel
-from app.models.user_model import UserModel
-from app.models.registration_model import RegistrationModel
-from app.models.role_model import RoleModel
-from app.models.permission_model import PermissionModel
-from app.models.association_tables import role_permission_association
-
-from app.utils.database import Base
-from app.utils.config import get_config
-
 from alembic import context
+from sqlalchemy import engine_from_config, pool
 
+from app.models.association_tables import role_permission_association
+from app.models.event_model import EventModel
+from app.models.registration_model import RegistrationModel
+from app.models.user_model import PermissionModel, RoleModel, UserModel
+from app.utils.config import get_config
+from app.utils.database import Base
 
 settings = get_config()
 
@@ -22,7 +17,7 @@ settings = get_config()
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option('sqlalchemy.url', settings.DB_URL)
+config.set_main_option("sqlalchemy.url", settings.DB_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -79,9 +74,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

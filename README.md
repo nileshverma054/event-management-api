@@ -105,6 +105,40 @@ pipenv install
 
 ---
 
+### Docker Setup
+
+#### Build image
+
+```bash
+docker compose build
+```
+
+#### Run app
+
+```bash
+docker compose up
+```
+
+#### Seed database
+
+1.exec into container
+
+```bash
+docker exec -it event-management-api bash
+```
+
+2.run command to seed db
+
+```bash
+python scripts/manage.py seed-db
+```
+
+3.create admin user
+
+```bash
+python scripts/manage.py create-user <first_name> <last_name> <email> admin
+```
+
 ### Why Pipenv?
 
 Pipenv is a tool that helps you manage your Python project dependencies. It provides a clean and reproducible development environment that is easy to use.
