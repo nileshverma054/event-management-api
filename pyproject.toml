@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "event-management-api"
+version = "0.1.0"
+description = ""
+authors = ["nileshverma054 <nileshverma054@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.112.0"}
+uvicorn = "^0.30.5"
+sqlalchemy = "^2.0.32"
+pydantic-settings = "^2.4.0"
+psycopg2-binary = "^2.9.9"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+alembic = "^1.13.2"
+pydantic = {extras = ["email"], version = "^2.8.2"}
+
+
+[tool.poetry.group.dev.dependencies]
+arguably = "^1.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

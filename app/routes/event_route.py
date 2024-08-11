@@ -65,7 +65,6 @@ async def delete_event(
     current_user: dict = Depends(authenticate_user),
     db: Session = Depends(get_db),
 ):
-    return {}
     event_service.delete_event(db=db, event_id=event_id)
 
 
