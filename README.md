@@ -203,6 +203,12 @@ pipenv install
 
 ---
 
+### Performace Testing using Apache Bench
+
+```bash
+ab -n 1000 http://localhost:8000/api/healthcheck
+```
+
 ## Requirement Details for reference
 
 ### Event Management RESTful API
