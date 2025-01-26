@@ -236,3 +236,10 @@ The API should support different access levels, allowing users to view events an
 
 * **Deployment**: Deploy the API to a cloud service.
 * **Documentation**: Provide a detailed README file with instructions on how to set up and test the API. Use Swagger for API documentation. Additional features will be bonus - Submission: The final submission on github publick should include: Source code. A link to the deployed API. A README file with setup and usage instructions.
+
+---
+
+### Healthcheck
+```bash
+http://localhost:8000/api/healthcheck
+```

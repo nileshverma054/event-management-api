@@ -21,8 +21,8 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
     PORT: int = 8000
     LOG_LEVEL: LogLevel = LogLevel.DEBUG
-    DB_URL: str
-    SECRET_KEY: str
+    DB_URL: str = "postgresql://localhost:5432/test"
+    SECRET_KEY: str = "dummy_secret"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
